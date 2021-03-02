@@ -4,7 +4,7 @@
 
 async function getFlightsWithCostLimitAndArrivalTime(costs=250, arrivalTime='16:00:00'){
     try {
-        let arrivals = await fetchDataFromRyanair();
+        let arrivals = await fetchDataFromRyanair(costs);
         arrivals = filterArrivalsWithArrivalTime(arrivals.fares,arrivalTime);
         appendAriivalsToList(arrivals);
     } catch (e){
@@ -12,12 +12,11 @@ async function getFlightsWithCostLimitAndArrivalTime(costs=250, arrivalTime='16:
     }
 }
 
-async function fetchDataFromRyanair(fareType='oneWayFares', airportCode='KRK',
+async function fetchDataFromRyanair(priceTo=150, fareType='oneWayFares', airportCode='KRK',
                                     lang='pl', limit=16,
                                     market='pl-pl', offset=0,
                                     departureDateFrom='2021-03-10',
-                                    departureDateTo='2022-03-10',
-                                    priceTo=150){
+                                    departureDateTo='2022-03-10'){
     const apiUrl = 'https://www.ryanair.com/api/farfnd/3/';
     const getQuery = `${fareType}?&departureAirportIataCode=${airportCode}&language=${lang}&limit=${limit}` +
         `&market=${market}&offset=${offset}&outboundDepartureDateFrom=${departureDateFrom}` +
