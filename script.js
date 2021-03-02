@@ -32,12 +32,10 @@ function filterArrivalsWithArrivalTime(arrivals, arrivalTime){
     return arrivals.filter(arrival=>{
         const tabTime = arrival.outbound.arrivalDate.match(dateRegExp)[0].split(':');
         for(let i in tabCondTimeTo){
-            if(tabCondTimeTo[i]<tabTime[i]){
-                return false;
+            if(tabCondTimeTo[i]===tabTime[i]){
+                continue;
             }
-            if(tabCondTimeTo[i]>tabTime[i]) {
-                return true;
-            }
+            return tabCondTimeTo[i]>tabTime[i];
         }
         return true;
     })
@@ -48,7 +46,7 @@ function appendAriivalsToList(arrivals){
     ol.innerHTML = "";
     const templateLi = document.querySelector('#arrival-li');
     for(let arr of arrivals){
-        let li = templateLi.content.cloneNode(true).querySelector('li');
+        const li = templateLi.content.cloneNode(true).querySelector('li');
         li.textContent = `${arr.outbound.arrivalAirport.countryName} - ${arr.outbound.arrivalAirport.city.name} ${arr.outbound.arrivalDate}`;
         ol.appendChild(li);
     }
